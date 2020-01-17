@@ -1,0 +1,60 @@
+
+@import url("https://fonts.googleapis.com/css?family=Poppins");
+
+header{
+    font-size: 50px;
+    text-align: center;
+    
+
+}
+a{
+    text-decoration: none;
+    color: black;
+  
+}
+a:hover{
+    color:red;
+
+}
+a:active{
+    color:green
+}
+
+
+body{
+    
+    font-family: Poppins,sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+}
+.topbar{
+    background-color: aqua;
+
+}
+.Categories{
+ 
+    padding: 20px;
+    margin: 20px 0;
+    border-radius: 15px;
+    
+}
+.Categories h2{
+    text-align: center;
+}
+.Categories ul{
+    padding: 0;
+    list-style: none;
+}
+.Categories li{
+    padding-bottom: 6px;
+    display: inline;
+    
+}
+hr{
+    margin:0;
+    padding: 0;
+}
+
+.languages ul{
+    list-style: circle;
+}

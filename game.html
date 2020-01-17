@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Things</title>
+    <style>
+    @import url('https://fonts.googleapis.com/css?family=Asap:500,700');
+    canvas{
+        border: 3px solid black;
+    }
+    body{
+        font-family: Asap,sans-serif;
+        text-align: center;
+    }
+    button{
+        padding: 10px 20px;
+        border: 0;
+        
+        cursor: pointer;
+        
+        font-size: 18px;
+        line-height: 1;
+        font-family: Asap, sans-serif;
+    }
+    #moon{
+        background: grey;
+        border: 4px solid rgb(32, 32, 33);
+    }
+    #earth{
+        background: green;
+        border: 4px solid Blue;
+    }
+    a{
+    text-decoration: none;
+    color: black;
+  
+}
+    a:hover{
+        color:red;
+
+    }
+    a:active{
+        color:green
+    }
+    </style>
+</head>
+<body>
+    <h1><a href="Main.html">Home</a></h1>
+    <br>
+    <canvas></canvas>
+    <script>
+    
+    var context,controller,rectangle,loop;
+    context = document.querySelector("canvas").getContext("2d");
+    context.canvas.height = 1000;
+    context.canvas.width = 1000;
+
+    rectangle = {
+        height:32,
+        jumping:true,
+        width:32,
+        x:144,
+        x_velocity:0,
+        y:0,
+        y_velocity:0
+    };
+    controller = {
+        left:false,
+        right:false,
+        up:false,
+        keyListener:function(event){
+            var key_state = (event.type == "keydown")?true:false;
+            switch(event.keyCode){
+                case 37:
+                    controller.left = key_state;
+                break;
+                case 38:
+                    controller.up = key_state;
+                break
+                case 39:
+                    controller.right = key_state;
+                break;
+                
+
+            }
+        }
+    };
+    var grav = 2.5;
+    function MoonGrav(){
+        grav = 0.5;
+
+
+    }
+    function EarthGrav(){
+        grav = 2.5;
+    }
+    loop = function(){
+        if(controller.up && rectangle.jumping == false){
+            rectangle.y_velocity -= 50;
+            rectangle.jumping = true;
+        }
+        if(controller.left){
+            rectangle.x_velocity -= 1;
+        }
+        if(controller.right){
+            rectangle.x_velocity += 1;
+        }
+        rectangle.y_velocity += grav;//gravity
+        rectangle.x += rectangle.x_velocity;
+        rectangle.y += rectangle.y_velocity;
+        rectangle.x_velocity *= 0.9;
+        rectangle.y_velocity *= 0.9;
+        if (rectangle.y > context.canvas.height - 16 - 32){
+            rectangle.jumping = false;
+            rectangle.y = context.canvas.height - 16 - 32;
+            rectangle.y_velocity = 0;
+        }
+        if (rectangle.y > context.canvas.height - 200 - 32 && rectangle.x > 100 && rectangle.x < 200 && rectangle.y < context.canvas.height - 100){
+            rectangle.jumping = false;
+            rectangle.y = context.canvas.height - 200 - 32;
+            rectangle.y_velocity = 0;
+        }
+
+        if(rectangle.x < -32){
+            rectangle.x = context.canvas.width;
+        }else if(rectangle.x > context.canvas.width){
+            rectangle.x = -32;
+        }
+        context.fillStyle = "#FFDA5F";
+        context.fillRect(0,0,context.canvas.width,context.canvas.height);
+        context.fillStyle = "#603968"
+        context.beginPath();
+        context.rect(rectangle.x,rectangle.y,rectangle.width,rectangle.height);
+        context.fill();
+    
+        context.strokeStyle = "#202830";
+        context.lineWidth = 4;
+        context.beginPath();
+        context.moveTo(0,context.canvas.height - 16);
+        context.lineTo(context.canvas.width,context.canvas.height - 16);
+        context.stroke();
+        context.beginPath();
+        context.fillStyle = "black";
+        //context.moveTo(100,context.canvas.height - 200);
+        context.fillRect(100,context.canvas.height - 200,100,50);
+        //context.lineTo(200,context.canvas.height - 200);
+        context.stroke();
+
+        window.requestAnimationFrame(loop);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    }
+    window.addEventListener("keydown",controller.keyListener);
+    window.addEventListener("keyup", controller.keyListener);
+    window.requestAnimationFrame(loop);
+    
+    </script>
+    <br>
+    <button onclick="MoonGrav();" id="moon">Moon Gravity</button>
+    <button onclick="EarthGrav();" id="earth">Earth Gravity</button>
+</body>
+</html>
